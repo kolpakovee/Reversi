@@ -95,7 +95,11 @@ public class PlayerTurn {
         // Метод получения координаты от пользователя
         Cell cell = ConsoleIO.getCoordinatesFromConsole(field);
         // Делаем ход за пользователя
-        cell.setColor(player.getColor());
+        if (cell != null && possibleMoves.contains(cell)) {
+            cell.setColor(player.getColor());
+        } else {
+            return false;
+        }
         Drawing.repaint(cell, player, enemy, field);
         return canMove;
     }

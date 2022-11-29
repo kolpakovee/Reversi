@@ -4,17 +4,10 @@ public class ConsoleIO {
     public static void printScore(Field field, GameMode gameMode, Player p1, Player p2) {
         System.out.print(field);
         System.out.println(Color.cyan.getCode() + "-----------------");
-        if (gameMode == GameMode.pvp) {
-            System.out.println(Color.white.getCode() + p1.getName() + ": "
-                    + Color.purple.getCode() + p1.cellsOnTheField.size());
-            System.out.println(Color.white.getCode() + p2.getName() + ": "
-                    + Color.purple.getCode() + p2.cellsOnTheField.size());
-        } else {
-            System.out.println(Color.white.getCode() + p1.getName() + ": "
-                    + Color.purple.getCode() + p1.cellsOnTheField.size());
-            System.out.println(Color.white.getCode() + "computer: "
-                    + Color.purple.getCode() + p2.cellsOnTheField.size());
-        }
+        System.out.println(Color.white.getCode() + p1.getName() + ": "
+                + Color.purple.getCode() + p1.cellsOnTheField.size());
+        System.out.println(Color.white.getCode() + p2.getName() + ": "
+                + Color.purple.getCode() + p2.cellsOnTheField.size());
         System.out.println(Color.cyan.getCode() + "-----------------");
     }
 
@@ -42,6 +35,9 @@ public class ConsoleIO {
         Scanner scanner = new Scanner(System.in);
         int x = scanner.nextInt();
         int y = scanner.nextInt();
+        if (x < 1 || x > 8 || y < 1 || y > 8){
+            return null;
+        }
         return field.cells[x - 1][y - 1];
     }
 }

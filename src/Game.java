@@ -3,15 +3,12 @@ import java.util.Scanner;
 public class Game {
     private GameMode gameMode;
     private Field field;
-    private Player player1, player2, computer;
+    private Player player1, player2;
 
     public void startGame() {
 
         while (true) {
             ConsoleIO.MenuToConsole();
-            // Игроки каждый раз пересоздаются. Зачем?
-            // Нужно пересоздать поле и пересчитать шашки игроков
-            // Игроков нужно создавать один раз при первом запуске
             if (!setGameMode()) {
                 break;
             }
@@ -27,6 +24,7 @@ public class Game {
                     }
                     ConsoleIO.printScore(field, gameMode, player1, player2);
                 } else if (gameMode == GameMode.pvp) {
+                    // Выводить счёт и кто ходит
                     if (!PlayerTurn.playerMove(field, player1, player2)) {
                         break;
                     }
@@ -48,7 +46,7 @@ public class Game {
             while (player1.cellsOnTheField.size() + player2.cellsOnTheField.size() != 64);
             player1.setScore(player1.cellsOnTheField.size());
         }
-
+        System.out.println("Best score: " + player1.getBestScore());
     }
 
     public Game() {
@@ -62,7 +60,9 @@ public class Game {
             case 1:
                 this.field = new Field();
                 this.gameMode = GameMode.easy;
-                this.player1 = ConsoleIO.getPlayer(Color.white);
+                if (player1 == null) {
+                    this.player1 = ConsoleIO.getPlayer(Color.white);
+                }
                 player1.getCells(field);
                 this.player2 = new Player("Computer", Color.purple);
                 player2.getCells(field);
@@ -70,7 +70,9 @@ public class Game {
             case 2:
                 this.field = new Field();
                 this.gameMode = GameMode.advanced;
-                this.player1 = ConsoleIO.getPlayer(Color.white);
+                if (player1 == null) {
+                    this.player1 = ConsoleIO.getPlayer(Color.white);
+                }
                 player1.getCells(field);
                 this.player2 = new Player("Computer", Color.purple);
                 player2.getCells(field);
@@ -78,7 +80,9 @@ public class Game {
             case 3:
                 this.field = new Field();
                 this.gameMode = GameMode.pvp;
-                this.player1 = ConsoleIO.getPlayer(Color.white);
+                if (player1 == null) {
+                    this.player1 = ConsoleIO.getPlayer(Color.white);
+                }
                 player1.getCells(field);
                 this.player2 = ConsoleIO.getPlayer(Color.purple);
                 player2.getCells(field);
