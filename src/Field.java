@@ -27,18 +27,4 @@ public class Field {
         stringBuilder.append(Color.cyan.getCode()).append("  1 2 3 4 5 6 7 8\n");
         return stringBuilder.toString();
     }
-
-    public int[] getCurrentScore() {
-        int[] scores = new int[2];
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (cells[i][j].getColor() == Color.white) {
-                    scores[0]++;
-                } else if (cells[i][j].getColor() == Color.purple) {
-                    scores[1]++;
-                }
-            }
-        }
-        return scores;
-    }
 }
