@@ -1,3 +1,11 @@
+package kolpakovee.Reversy;
+
+import kolpakovee.Reversy.Model.Cell;
+import kolpakovee.Reversy.Model.Color;
+import kolpakovee.Reversy.Model.Field;
+import kolpakovee.Reversy.Model.Player;
+import kolpakovee.Reversy.View.Drawing;
+
 import java.util.ArrayList;
 
 public class PlayerTurn {
@@ -91,9 +99,9 @@ public class PlayerTurn {
             canMove = true;
         }
         // Показываем игроку, куда он может сходить
-        Drawing.repaintPossibleMoves(possibleMoves, field);
+        Drawing.repaintPossibleMoves(possibleMoves, field, player, enemy);
         // Метод получения координаты от пользователя
-        Cell cell = ConsoleIO.getCoordinatesFromConsole(field);
+        Cell cell = ConsoleIO.getCoordinatesFromConsole(field, player);
         // Делаем ход за пользователя
         if (cell != null && possibleMoves.contains(cell)) {
             cell.setColor(player.getColor());
@@ -106,7 +114,6 @@ public class PlayerTurn {
 
     /**
      * Метод для поиска лучшего хода режима Easy
-     *
      * @return ячейку - наилучшуй ход
      */
     public static boolean easyComputerMove(Field field, Player player, Player computer) {

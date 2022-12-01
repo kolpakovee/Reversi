@@ -1,3 +1,5 @@
+package kolpakovee.Reversy.Model;
+
 public enum Color {
     white("\u001B[0m"),
     cyan ( "\u001B[36m"),

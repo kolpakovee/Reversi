@@ -1,9 +1,11 @@
+package kolpakovee.Reversy.Model;
+
 import java.util.ArrayList;
 
 public class Player {
     private final String name;
     private final Color color;
-    ArrayList<Cell> cellsOnTheField = new ArrayList<>();
+    public ArrayList<Cell> cellsOnTheField = new ArrayList<>();
     private int bestScore;
 
     public Player(String name, Color color) {

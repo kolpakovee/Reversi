@@ -1,3 +1,9 @@
+package kolpakovee.Reversy.Model;
+
+
+import kolpakovee.Reversy.ConsoleIO;
+import kolpakovee.Reversy.PlayerTurn;
+
 import java.util.Scanner;
 
 public class Game {
@@ -12,19 +18,16 @@ public class Game {
             if (!setGameMode()) {
                 break;
             }
-            ConsoleIO.printScore(field, gameMode, player1, player2);
+            ConsoleIO.printScore(player1, player2);
             do {
                 if (gameMode == GameMode.easy) {
                     if (!PlayerTurn.playerMove(field, player1, player2)) {
                         break;
                     }
-                    ConsoleIO.printScore(field, gameMode, player1, player2);
                     if (!PlayerTurn.easyComputerMove(field, player1, player2)) {
                         break;
                     }
-                    ConsoleIO.printScore(field, gameMode, player1, player2);
                 } else if (gameMode == GameMode.pvp) {
-                    // Выводить счёт и кто ходит
                     if (!PlayerTurn.playerMove(field, player1, player2)) {
                         break;
                     }
@@ -35,18 +38,16 @@ public class Game {
                     if (!PlayerTurn.playerMove(field, player1, player2)) {
                         break;
                     }
-                    ConsoleIO.printScore(field, gameMode, player1, player2);
                     if (!PlayerTurn.advancedComputerMode(field, player1, player2)) {
                         break;
                     }
-                    ConsoleIO.printScore(field, gameMode, player1, player2);
                 }
             }
             // Доделать условие
             while (player1.cellsOnTheField.size() + player2.cellsOnTheField.size() != 64);
             player1.setScore(player1.cellsOnTheField.size());
         }
-        System.out.println("Best score: " + player1.getBestScore());
+        ConsoleIO.printBestResult(player1);
     }
 
     public Game() {

@@ -1,3 +1,5 @@
+package kolpakovee.Reversy.Model;
+
 public class Cell {
     private final int x;
     private final int y;
@@ -18,21 +20,12 @@ public class Cell {
     public int getX() {return x;}
     public int getY() {return y;}
 
-    public void changeColor(){
-        if (color == Color.white){
-            color = Color.purple;
-        }
-        else if (color == Color.purple){
-            color = Color.white;
-        }
-    }
-
     public String toString(){
         if (color == Color.gray || color == Color.red){
-            return color.getCode() + "⊡" + Color.white.getCode();
+            return color.getCode() + "□";
         }
         else{
-            return color.getCode() + "◎" + Color.white.getCode();
+            return color.getCode() + "●";
         }
     }
 

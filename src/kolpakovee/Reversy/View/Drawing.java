@@ -1,11 +1,19 @@
+package kolpakovee.Reversy.View;
+
+import kolpakovee.Reversy.ConsoleIO;
+import kolpakovee.Reversy.Model.Cell;
+import kolpakovee.Reversy.Model.Color;
+import kolpakovee.Reversy.Model.Field;
+import kolpakovee.Reversy.Model.Player;
+
 import java.util.ArrayList;
 
 public class Drawing {
-    public static void repaintPossibleMoves(ArrayList<Cell> possibleMoves, Field field) {
+    public static void repaintPossibleMoves(ArrayList<Cell> possibleMoves, Field field, Player player1, Player player2) {
         for (Cell cell : possibleMoves) {
             cell.setColor(Color.red);
         }
-        System.out.println(field);
+        ConsoleIO.printField(field, player1, player2);
         for (Cell cell : possibleMoves) {
             cell.setColor(Color.gray);
         }
