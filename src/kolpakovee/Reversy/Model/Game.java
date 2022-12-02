@@ -12,51 +12,56 @@ public class Game {
     private Player player1, player2;
 
     public void startGame() {
-
         while (true) {
             ConsoleIO.MenuToConsole();
             if (!setGameMode()) {
                 break;
             }
-            ConsoleIO.printScore(player1, player2);
+            int countOfCells;
             do {
+                // посчитали кол-во до ходов
+                countOfCells = player1.cellsOnTheField.size() +
+                        player2.cellsOnTheField.size();
+                // сделали ходы
                 if (gameMode == GameMode.easy) {
-                    if (!PlayerTurn.playerMove(field, player1, player2)) {
-                        break;
-                    }
-                    if (!PlayerTurn.easyComputerMove(field, player1, player2)) {
-                        break;
-                    }
+                    PlayerTurn.playerMove(field, player1, player2);
+                    PlayerTurn.easyComputerMove(field, player1, player2);
                 } else if (gameMode == GameMode.pvp) {
-                    if (!PlayerTurn.playerMove(field, player1, player2)) {
-                        break;
-                    }
-                    if (!PlayerTurn.playerMove(field, player2, player1)) {
-                        break;
-                    }
+                    PlayerTurn.playerMove(field, player1, player2);
+                    PlayerTurn.playerMove(field, player2, player1);
                 } else if (gameMode == GameMode.advanced) {
-                    if (!PlayerTurn.playerMove(field, player1, player2)) {
-                        break;
-                    }
-                    if (!PlayerTurn.advancedComputerMode(field, player1, player2)) {
-                        break;
-                    }
+                    PlayerTurn.playerMove(field, player1, player2);
+                    PlayerTurn.advancedComputerMove(field, player1, player2);
                 }
             }
-            // Доделать условие
-            while (player1.cellsOnTheField.size() + player2.cellsOnTheField.size() != 64);
+            // если ходить некуда или кол-во шашек не изменилось -> break
+            while (player1.cellsOnTheField.size() + player2.cellsOnTheField.size() != 64
+                    && player1.cellsOnTheField.size() + player2.cellsOnTheField.size() != countOfCells);
             player1.setScore(player1.cellsOnTheField.size());
+            ConsoleIO.printWinner(player1, player2);
+            ConsoleIO.printField(field, player1, player2);
+
         }
-        ConsoleIO.printBestResult(player1);
+        if (player1 != null) {
+            ConsoleIO.printBestResult(player1);
+        }
     }
 
     public Game() {
     }
 
     public boolean setGameMode() {
-        System.out.print(Color.purple.getCode() + "Select game mode: ");
-        Scanner scanner = new Scanner(System.in);
-        int menuItem = scanner.nextInt();
+        Scanner scanner;
+        int menuItem = 0;
+        while (menuItem == 0) {
+            try {
+                System.out.print(Color.purple.getCode() + "Select game mode: ");
+                scanner = new Scanner(System.in);
+                menuItem = scanner.nextInt();
+            } catch (Exception ignored) {
+                System.out.println("Enter a number from 1 to 4!");
+            }
+        }
         switch (menuItem) {
             case 1:
                 this.field = new Field();

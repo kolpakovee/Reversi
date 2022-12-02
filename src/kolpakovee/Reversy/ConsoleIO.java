@@ -2,17 +2,11 @@ package kolpakovee.Reversy;
 
 import kolpakovee.Reversy.Model.*;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ConsoleIO {
     private static Scanner scanner;
-
-    public static void printScore(Player p1, Player p2) {
-        System.out.println(Color.white.getCode() + p1.getName() + ": "
-                + Color.purple.getCode() + p1.cellsOnTheField.size());
-        System.out.println(Color.white.getCode() + p2.getName() + ": "
-                + Color.purple.getCode() + p2.cellsOnTheField.size());
-    }
 
     public static Player getPlayer(Color color) {
         scanner = new Scanner(System.in);
@@ -33,19 +27,29 @@ public class ConsoleIO {
     }
 
     public static void moveToConsole(Cell cell) {
-        System.out.println("\n" + Color.red.getCode() + "Computer turn " +
-                (cell.getX() + 1) + " " + (cell.getY() + 1));
+        System.out.println(Color.red.getCode() + "The computer went to the cell (" +
+                (cell.getX() + 1) + " " + (cell.getY() + 1) + ")");
     }
 
-    public static Cell getCoordinatesFromConsole(Field field, Player player) {
-        int x = 0;
-        int y = 0;
-        while (x < 1 || x > 8 || y < 1 || y > 8) {
+    public static Cell getCoordinatesFromConsole(Field field, Player player, ArrayList<Cell> possibleMoves) {
+        int x;
+        int y;
+        while (true) {
             try {
-                System.out.print(Color.red.getCode() + player.getName() + ", введите координаты хода: ");
+                System.out.print(Color.green.getCode() + player.getName() + " enter the coordinates of the moves: ");
                 scanner = new Scanner(System.in);
                 x = scanner.nextInt();
                 y = scanner.nextInt();
+                boolean canMove = false;
+                for (Cell c : possibleMoves) {
+                    if (c.getX() == (x - 1) && c.getY() == (y - 1)) {
+                        canMove = true;
+                        break;
+                    }
+                }
+                if (canMove) {
+                    break;
+                }
             } catch (Exception ignored) {
             }
         }
@@ -54,8 +58,8 @@ public class ConsoleIO {
     }
 
     public static void printBestResult(Player player) {
-        System.out.print(Color.purple.getCode() + "Лучший результат игрока "
-                + player.getName() + " - " + Color.cyan.getCode() + player.getBestScore());
+        System.out.print(Color.purple.getCode() + player.getName() + "'s best result "
+                + " - " + Color.cyan.getCode() + player.getBestScore());
     }
 
     public static void printField(Field field, Player player1, Player player2) {
@@ -64,8 +68,8 @@ public class ConsoleIO {
             for (int j = 0; j < 8; j++) {
                 System.out.print(" " + field.cells[i][j]);
             }
-            if (i == 2){
-                System.out.print("\t\t\t" + Color.cyan.getCode() + "Счёт:");
+            if (i == 2) {
+                System.out.print("\t\t\t" + Color.cyan.getCode() + "Score:");
             }
             if (i == 3) {
                 System.out.print("\t\t\t" + player1.getColor().getCode() + player1.getName() + ": "
@@ -78,5 +82,15 @@ public class ConsoleIO {
             System.out.println();
         }
         System.out.println(Color.cyan.getCode() + "  1 2 3 4 5 6 7 8");
+    }
+
+    public static void printWinner(Player player1, Player player2) {
+        if (player1.cellsOnTheField.size() > player2.cellsOnTheField.size()) {
+            System.out.println(player1.getColor().getCode() + "Congratulations " + player1.getName() + " you won!");
+        } else if (player1.cellsOnTheField.size() < player2.cellsOnTheField.size()) {
+            System.out.println(player2.getColor().getCode() + "Congratulations " + player2.getName() + " you won!");
+        } else {
+            System.out.println(Color.cyan.getCode() + "Friendship won in a fair fight!");
+        }
     }
 }

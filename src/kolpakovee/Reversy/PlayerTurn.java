@@ -90,33 +90,26 @@ public class PlayerTurn {
         return resultList;
     }
 
-    public static boolean playerMove(Field field, Player player, Player enemy) {
-        boolean canMove = false;
+    public static void playerMove(Field field, Player player, Player enemy) {
         ArrayList<Cell> freeCells = PlayerTurn.findFreeCells(field, enemy.cellsOnTheField);
         // Находим возможные ходы для player1
         ArrayList<Cell> possibleMoves = PlayerTurn.possibleMoves(field, freeCells, player);
-        if (possibleMoves.size() > 0) {
-            canMove = true;
+        if (possibleMoves.size() == 0) {
+            return;
         }
         // Показываем игроку, куда он может сходить
         Drawing.repaintPossibleMoves(possibleMoves, field, player, enemy);
         // Метод получения координаты от пользователя
-        Cell cell = ConsoleIO.getCoordinatesFromConsole(field, player);
+        Cell cell = ConsoleIO.getCoordinatesFromConsole(field, player, possibleMoves);
         // Делаем ход за пользователя
-        if (cell != null && possibleMoves.contains(cell)) {
-            cell.setColor(player.getColor());
-        } else {
-            return false;
-        }
+        cell.setColor(player.getColor());
         Drawing.repaint(cell, player, enemy, field);
-        return canMove;
     }
 
     /**
      * Метод для поиска лучшего хода режима Easy
-     * @return ячейку - наилучшуй ход
      */
-    public static boolean easyComputerMove(Field field, Player player, Player computer) {
+    public static void easyComputerMove(Field field, Player player, Player computer) {
         double bestRes = 0;
         ArrayList<Cell> freeCells = PlayerTurn.findFreeCells(field, player.cellsOnTheField);
         Cell c = new Cell(0, 0);
@@ -134,10 +127,9 @@ public class PlayerTurn {
             Drawing.repaint(c, player, computer, field);
             ConsoleIO.moveToConsole(c);
         }
-        return canMove;
     }
 
-    public static boolean advancedComputerMode(Field field, Player player, Player computer) {
+    public static void advancedComputerMove(Field field, Player player, Player computer) {
         // делаю -100, потому что могут быть ситуации, когда все ходы res могут быть < 0
         double bestComputerRes = -100;
         ArrayList<Cell> freeCells = PlayerTurn.findFreeCells(field, player.cellsOnTheField);
@@ -175,6 +167,5 @@ public class PlayerTurn {
             Drawing.repaint(c, player, computer, field);
             ConsoleIO.moveToConsole(c);
         }
-        return canMove;
     }
 }
