@@ -5,9 +5,18 @@ import kolpakovee.Reversy.Model.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Класс для работы с консоль/
+ */
 public class ConsoleIO {
     private static Scanner scanner;
 
+    /**
+     * Получает имя игрока из консоли (по умолчании имя - Ivan)
+     *
+     * @param color цвет игрока
+     * @return игрок
+     */
     public static Player getPlayer(Color color) {
         scanner = new Scanner(System.in);
         if (color == Color.white) {
@@ -15,9 +24,17 @@ public class ConsoleIO {
         } else {
             System.out.print("Enter second player name: ");
         }
-        return new Player(scanner.nextLine(), color);
+        String name = "Ivan";
+        try {
+            name = scanner.nextLine();
+        } catch (Exception ignored) {
+        }
+        return new Player(name, color);
     }
 
+    /**
+     * Выводит главное меню в консоль
+     */
     public static void MenuToConsole() {
         System.out.println(Color.cyan.getCode() + "REVERSI");
         System.out.println(Color.white.getCode() + "1. Easy mode\n" +
@@ -26,11 +43,24 @@ public class ConsoleIO {
                 "4. Quit");
     }
 
+    /**
+     * Выводит ход, совершаемый компьютером, в консоль
+     *
+     * @param cell ход компьютера
+     */
     public static void moveToConsole(Cell cell) {
         System.out.println(Color.red.getCode() + "The computer went to the cell (" +
                 (cell.getX() + 1) + " " + (cell.getY() + 1) + ")");
     }
 
+    /**
+     * Получает координаты хода из консоли
+     *
+     * @param field         игровое поле
+     * @param player        игрок, совершающий ход
+     * @param possibleMoves возможные ходы игрока (нужны для проверки полученных координат от пользователя)
+     * @return ячейку поля, в которую игрок хочет сходить
+     */
     public static Cell getCoordinatesFromConsole(Field field, Player player, ArrayList<Cell> possibleMoves) {
         int x;
         int y;
@@ -57,11 +87,23 @@ public class ConsoleIO {
         return field.cells[x - 1][y - 1];
     }
 
+    /**
+     * Печатает лучший счёт пользователя в консоль
+     *
+     * @param player игрок, счёт которого нужно напечатать
+     */
     public static void printBestResult(Player player) {
         System.out.print(Color.purple.getCode() + player.getName() + "'s best result "
                 + " - " + Color.cyan.getCode() + player.getBestScore());
     }
 
+    /**
+     * Печатает игровое поле и счёт справа от него
+     *
+     * @param field   игровое поле
+     * @param player1 первый игрок
+     * @param player2 второй игрок
+     */
     public static void printField(Field field, Player player1, Player player2) {
         for (int i = 0; i < 8; i++) {
             System.out.print(Color.cyan.getCode() + (i + 1));
@@ -84,6 +126,12 @@ public class ConsoleIO {
         System.out.println(Color.cyan.getCode() + "  1 2 3 4 5 6 7 8");
     }
 
+    /**
+     * Печатает победителя игры
+     *
+     * @param player1 первый игрок
+     * @param player2 второй игрок
+     */
     public static void printWinner(Player player1, Player player2) {
         if (player1.cellsOnTheField.size() > player2.cellsOnTheField.size()) {
             System.out.println(player1.getColor().getCode() + "Congratulations " + player1.getName() + " you won!");

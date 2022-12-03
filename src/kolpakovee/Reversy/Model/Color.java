@@ -1,5 +1,8 @@
 package kolpakovee.Reversy.Model;
 
+/**
+ * Пеечисление для удобного хранения цветов
+ */
 public enum Color {
     white("\u001B[0m"),
     cyan("\u001B[36m"),
@@ -10,10 +13,18 @@ public enum Color {
 
     private final String code;
 
+    /**
+     * Устанавливает цвет
+     * @param code код
+     */
     Color(String code) {
         this.code = code;
     }
 
+    /**
+     * Возвращает код цвета
+     * @return код цвета
+     */
     public String getCode() {
         return code;
     }

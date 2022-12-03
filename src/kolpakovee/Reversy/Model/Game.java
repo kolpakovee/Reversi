@@ -7,11 +7,17 @@ import kolpakovee.Reversy.View.Drawing;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Класс игра
+ */
 public class Game {
     private GameMode gameMode;
     private Field field;
     private Player player1, player2;
 
+    /**
+     * метод для старта игры
+     */
     public void startGame() {
         while (true) {
             ConsoleIO.MenuToConsole();
@@ -32,7 +38,7 @@ public class Game {
                     playerMove(player2, player1);
                 } else if (gameMode == GameMode.advanced) {
                     playerMove(player1, player2);
-                    advancedComputerMove(field, player1, player2);
+                    advancedComputerMove(player1, player2);
                 }
             }
             // если ходить некуда или кол-во шашек не изменилось -> break
@@ -48,9 +54,17 @@ public class Game {
         }
     }
 
+    /**
+     * Конструктор без параметров
+     */
     public Game() {
     }
 
+    /**
+     * @param freeCells свободные клетки поля
+     * @param player игрок, делающий ход
+     * @return клетки, в которые можно сходить
+     */
     public ArrayList<Cell> possibleMoves(ArrayList<Cell> freeCells, Player player) {
         ArrayList<Cell> cells = new ArrayList<>();
         for (Cell cell : freeCells) {
@@ -61,6 +75,12 @@ public class Game {
         return cells;
     }
 
+    /**
+     * Метод для подсчёта значения функции хода
+     * @param cell предполагаемая ячейка для хода
+     * @param color цвет игрока, который будет ходить (передаётся именно цвет, потому что эта же функция используется для хода компьютера)
+     * @return значение функции для предполагаемого хода
+     */
     public double getFunctionResult(Cell cell, Color color) {
         double result = 0;
         if (Cell.isCornerCell(cell.getX(), cell.getY())) {
@@ -76,6 +96,14 @@ public class Game {
         return result;
     }
 
+    /**
+     * Метод для того, чтобы сходить от ячейки в одну из 8-ми сторон и посчитать значение функции ходаа
+     * @param cell предполагаемая ячейка для хода
+     * @param color цвет игрока, который совершает ход
+     * @param forX параметр для перемещения по поля по оси OX
+     * @param forY параметр для перемещения по поля по оси OY
+     * @return значение функции для 1 из 8 возможных направлений
+     */
     public double getFunctionResultHelper(Cell cell, Color color, int forX, int forY) {
         double result = 0;
         int x = cell.getX() + forX;
@@ -109,11 +137,10 @@ public class Game {
     }
 
     /**
-     * Функция поиска возможных ходов
-     * @param cells клетки врага
-     * @return массив клеток - возможных ходов
+     * Функция поиска возможных ходов рядом с клетками противника
+     * @param cells клетки противника
+     * @return ячейки, в которые теоретически можно сходить
      */
-    // в класс ход
     public ArrayList<Cell> findFreeCells(ArrayList<Cell> cells) {
         ArrayList<Cell> resultList = new ArrayList<>();
         for (Cell cell : cells) {
@@ -130,6 +157,11 @@ public class Game {
         return resultList;
     }
 
+    /**
+     * Функция для совершения хода за игрока
+     * @param player игрок, совершающий ход
+     * @param enemy противник
+     */
     public void playerMove(Player player, Player enemy) {
         ArrayList<Cell> freeCells = findFreeCells(enemy.cellsOnTheField);
         // Находим возможные ходы для player1
@@ -147,7 +179,9 @@ public class Game {
     }
 
     /**
-     * Метод для поиска лучшего хода режима Easy
+     * Метод совершает ход компьютера в лёгком режиме игры
+     * @param player игрок, который играет против компьютера
+     * @param computer компьютер
      */
     public void easyComputerMove(Player player, Player computer) {
         double bestRes = 0;
@@ -169,7 +203,12 @@ public class Game {
         }
     }
 
-    public void advancedComputerMove(Field field, Player player, Player computer) {
+    /**
+     * Метод совершает ход компьютера в продвинутом режиме игры
+     * @param player игрок, который играет против компьютера
+     * @param computer компьютер
+     */
+    public void advancedComputerMove(Player player, Player computer) {
         // делаю -100, потому что могут быть ситуации, когда все ходы res могут быть < 0
         double bestComputerRes = -100;
         ArrayList<Cell> freeCells = findFreeCells(player.cellsOnTheField);
@@ -209,6 +248,11 @@ public class Game {
         }
     }
 
+    /**
+     * Метод, устанавливающий режим игры и инициализирующий поля
+     * @return true -> инициализация прошла успешно,
+     * false -> пользователь ввёл что-то не то или решил завершить выполнение программы
+     */
     public boolean setGameMode() {
         Scanner scanner;
         int menuItem = 0;
