@@ -66,7 +66,8 @@ public class ConsoleIO {
         int y;
         while (true) {
             try {
-                System.out.print(Color.green.getCode() + player.getName() + " enter the coordinates of the moves: ");
+                System.out.print(Color.green.getCode() + player.getName() + " " +
+                        "enter the coordinates of the moves (in format \"row column\", e.g. \"2 3\"): ");
                 scanner = new Scanner(System.in);
                 x = scanner.nextInt();
                 y = scanner.nextInt();
